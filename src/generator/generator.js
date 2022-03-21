@@ -28,7 +28,6 @@ function generatePassword(passwordLength, includesSymbol, includesNumber) {
     for (let length = 0; length < passwordLength; length++) {
         let randomNumber = getRandomNumber(passwordLength * 2);
         
-        // console.log(randomNumber)
         if ((passwordLength % randomNumber) === 0 && includesSymbol) {
             password += getRandomSymbol();
         } else if ((passwordLength % randomNumber) === passwordLength && includesNumber) {
