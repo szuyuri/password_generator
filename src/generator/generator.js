@@ -7,8 +7,8 @@ function getRandomNumber(maximumNumber) {
     return parseInt(Math.random() * maximumNumber);
 };
 
-// Getter functions that returns random characters based on the 'generatePassword'
-// function parameters;
+// Getter functions that returns random characters based
+// on the 'generatePassword' function parameters;
 function getRandomLetter() {
     return alphabet.charAt(getRandomNumber(alphabet.length));
 };
@@ -26,11 +26,12 @@ function generatePassword(passwordLength, includesSymbol, includesNumber) {
     let password = '';
 
     for (let length = 0; length < passwordLength; length++) {
-        let randomNumber = getRandomNumber(passwordLength);
+        let randomNumber = getRandomNumber(passwordLength * 2);
         
+        // console.log(randomNumber)
         if ((passwordLength % randomNumber) === 0 && includesSymbol) {
             password += getRandomSymbol();
-        } else if ((passwordLength % randomNumber) === 1 && includesNumber) {
+        } else if ((passwordLength % randomNumber) === passwordLength && includesNumber) {
             password += getRandomNumberCharacter();
         } else {
             password += getRandomLetter();
