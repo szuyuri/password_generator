@@ -9,21 +9,21 @@ const readlineInterface = readline.createInterface({
 });
 
 // Password length question;
-readlineInterface.question('Desired password length: ', (desiredLength) => {
+readlineInterface.question('| - Desired password length: ', (desiredLength) => {
     let lengthInt = parseInt(desiredLength);
     let passwordLength = lengthInt >= 8 ? lengthInt : DEFAULT_PASSWORD_LENGTH;
-    console.log(`| - Your desired password length is ${passwordLength}`);
+    console.log(`+ - Your desired password length is ${passwordLength}`);
     
     // Require symbols question;
-    readlineInterface.question('Include symbols in your password?(Y/n): ', (includeSymbols) => {
+    readlineInterface.question('| - Include symbols in your password?(Y/n): ', (includeSymbols) => {
         let userWantsSymbols = includeSymbols.toLowerCase() === 'y' ? true : false;
 
         // Require numbers question;
-        readlineInterface.question('Include numbers in your password?(Y/n): ', (includeNumbers) => {
+        readlineInterface.question('| - Include numbers in your password?(Y/n): ', (includeNumbers) => {
             let userWantsNumbers = includeNumbers.toLowerCase() === 'y' ? true : false;
             let newPassword = generatePassword(passwordLength, userWantsSymbols, userWantsNumbers);
 
-            console.log(`| - Your password is: ${newPassword}`);
+            console.log(`+ - Your password is: ${newPassword}`);
             readlineInterface.close();
         });
     });
