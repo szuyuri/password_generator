@@ -1,4 +1,5 @@
 import readline from 'readline';
+import clipboard from 'clipboardy';
 import { generatePassword } from './generator/generator.js';
 
 const DEFAULT_PASSWORD_LENGTH = 8;
@@ -21,10 +22,20 @@ readlineInterface.question('| - Desired password length: ', (desiredLength) => {
         // Require numbers question;
         readlineInterface.question('| - Include numbers in your password?(Y/n): ', (includeNumbers) => {
             let userWantsNumbers = includeNumbers.toLowerCase() === 'y' ? true : false;
-            let newPassword = generatePassword(passwordLength, userWantsSymbols, userWantsNumbers);
+            
+            // Copy to clipboard question;
+            readlineInterface.question('| - Copy the password to clipboard?(Y/n)', (copyToClipboard) => {
+                let userWantsCopyToClipboard = copyToClipboard.toLowerCase() === 'y' ? true : false;
 
-            console.log(`+ - Your password is: ${newPassword}`);
-            readlineInterface.close();
+                // Generate password
+                let newPassword = generatePassword(passwordLength, userWantsSymbols, userWantsNumbers);
+
+                console.log(`+ - Your password is: ${newPassword}`);
+                if (userWantsCopyToClipboard) {
+                    clipboard.writeSync(newPassword);
+                };
+                readlineInterface.close();
+            });
         });
     });
 
