@@ -6,4 +6,4 @@ const EXPECTED_ANSWERS = ['y', 'yes', 'ye'];
 
  * * Returns a boolean(true/false)
 */
-export default formatAnswer = (answer) => EXPECTED_ANSWERS.includes(answer);
+export const formatAnswer = (answer) => EXPECTED_ANSWERS.includes(answer);
