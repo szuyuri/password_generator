@@ -1,8 +1,9 @@
 import readline from 'readline';
 import clipboard from 'clipboardy';
-import { generatePassword } from './generator/generator.js';
+import generatePassword from './generator/generator.js';
+import { formatAnswer } from './format_answer/format_answer.js';
 
-const DEFAULT_PASSWORD_LENGTH = 8;
+const DEFAULT_PASSWORD_LENGTH = 10;
 
 const readlineInterface = readline.createInterface({
     input: process.stdin,
@@ -15,26 +16,33 @@ readlineInterface.question('| - Desired password length: ', (desiredLength) => {
     let passwordLength = lengthInt >= 8 ? lengthInt : DEFAULT_PASSWORD_LENGTH;
     console.log(`+ - Your desired password length is ${passwordLength}`);
     
-    // Require symbols question;
-    readlineInterface.question('| - Include symbols in your password?(Y/n): ', (includeSymbols) => {
-        let userWantsSymbols = includeSymbols.toLowerCase() === 'y' ? true : false;
+    // User requires capitalized letters
+    readlineInterface.question('| - Capitalize some letters?(Y/n): ', (capitalizeLetters) => {
 
-        // Require numbers question;
-        readlineInterface.question('| - Include numbers in your password?(Y/n): ', (includeNumbers) => {
-            let userWantsNumbers = includeNumbers.toLowerCase() === 'y' ? true : false;
-            
-            // Copy to clipboard question;
-            readlineInterface.question('| - Copy the password to clipboard?(Y/n)', (copyToClipboard) => {
-                let userWantsCopyToClipboard = copyToClipboard.toLowerCase() === 'y' ? true : false;
+        // Require symbols question;
+        readlineInterface.question('| - Include symbols in your password?(Y/n): ', (includeSymbols) => {
 
-                // Generate password
-                let newPassword = generatePassword(passwordLength, userWantsSymbols, userWantsNumbers);
+            // Require numbers question;
+            readlineInterface.question('| - Include numbers in your password?(Y/n): ', (includeNumbers) => {
+                
+                // Copy to clipboard question;
+                readlineInterface.question('| - Copy the password to clipboard?(Y/n)', (copyToClipboard) => {
+                    let userWantsCopyToClipboard = formatAnswer(copyToClipboard);
+                    let userWantsCapitalizedLetters = formatAnswer(capitalizeLetters);
+                    let userWantsSymbols = formatAnswer(includeSymbols);
+                    let userWantsNumbers = formatAnswer(includeNumbers);
 
-                console.log(`+ - Your password is: ${newPassword}`);
-                if (userWantsCopyToClipboard) {
-                    clipboard.writeSync(newPassword);
-                };
-                readlineInterface.close();
+                    let passwordInformation = [passwordLength, userWantsNumbers, userWantsSymbols, userWantsCapitalizedLetters];
+
+                    // Generate password
+                    let newPassword = generatePassword(passwordInformation);
+
+                    console.log(`+ - Your password is: ${newPassword}`);
+                    if (userWantsCopyToClipboard) {
+                        clipboard.writeSync(newPassword);
+                    };
+                    readlineInterface.close();
+                });
             });
         });
     });
