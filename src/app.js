@@ -3,7 +3,7 @@ import clipboard from 'clipboardy';
 import generatePassword from './generator/generator.js';
 import { formatAnswer } from './format_answer/format_answer.js';
 
-const DEFAULT_PASSWORD_LENGTH = 10;
+const DEFAULT_PASSWORD_LENGTH = 8;
 
 const readlineInterface = readline.createInterface({
     input: process.stdin,
@@ -11,7 +11,7 @@ const readlineInterface = readline.createInterface({
 });
 
 // Password length question;
-readlineInterface.question('| - Desired password length: ', (desiredLength) => {
+readlineInterface.question(`| - Desired password length(Default ${DEFAULT_PASSWORD_LENGTH}): `, (desiredLength) => {
     let lengthInt = parseInt(desiredLength);
     let passwordLength = lengthInt >= 8 ? lengthInt : DEFAULT_PASSWORD_LENGTH;
     console.log(`+ - Your desired password length is ${passwordLength}`);
